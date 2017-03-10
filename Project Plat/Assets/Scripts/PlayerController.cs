@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour {
 
 	public AudioSource jumpsound;
 
+	public GameObject stompBox;
+
 	void Start () {
 		//assign the animator and rigidbody(movement/gravity) to the player
 		myRigidbody = GetComponent<Rigidbody2D> ();
@@ -67,6 +69,14 @@ public class PlayerController : MonoBehaviour {
 		//set the speed and grounded variables for the animator conditions
 		myAnim.SetFloat ("Speed", Mathf.Abs(myRigidbody.velocity.x));
 		myAnim.SetBool ("Grounded", isGrounded);
+
+		if (myRigidbody.velocity.y < 0) {
+			//only activate the stompbox if the player is moving down
+			stompBox.SetActive (true);
+		} else {
+			stompBox.SetActive (false);
+		}
+
 	}
 
 

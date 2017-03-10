@@ -44,7 +44,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.39
+  m_Radius: 0.4
 --- !u!95 &9585076
 Animator:
   serializedVersion: 3
@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3302952d1e08f0e49a330519dd3bb468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageToGive: 1
 --- !u!212 &21275864
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -113,6 +114,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
       value: -276850913
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damageToGive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

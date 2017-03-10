@@ -8,6 +8,7 @@ public class Coin : MonoBehaviour {
 	public int coinValue;
 
 	void Start () {
+		//Find the level manager
 		theLevelManager = FindObjectOfType<LevelManager> ();
 	}
 	
@@ -19,8 +20,9 @@ public class Coin : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Player") {
+			//when the player collides with coin, add the value to score and deactivate coin
 			theLevelManager.AddCoins (coinValue);
-			Destroy (gameObject);
+			gameObject.SetActive (false);
 		}
 	}
 }

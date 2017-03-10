@@ -6,6 +6,8 @@ public class HurtPlayer : MonoBehaviour {
 
 	private LevelManager theLevelManager;
 
+	public int damageToGive;
+
 
 	void Start () {
 		//find the level manager in the game
@@ -19,8 +21,8 @@ public class HurtPlayer : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Player") {
-			//if the Player enters a killbox, respawn the player
-			theLevelManager.Respawn ();
+			//if the Player enters a hurtbox, deal damage to him
+			theLevelManager.HurtPlayer (damageToGive);
 		}
 	}
 

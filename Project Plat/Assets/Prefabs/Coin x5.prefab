@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21264508}
   - 58: {fileID: 5867648}
   - 114: {fileID: 11426354}
+  - 114: {fileID: 11467938}
   m_Layer: 0
   m_Name: Coin x5
   m_TagString: Untagged
@@ -43,7 +44,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.29
+  m_Radius: 0.3
 --- !u!114 &11426354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,6 +57,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinValue: 5
+--- !u!114 &11467938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 102682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830ded5e43074e746a64575c05e02a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21264508
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -100,6 +112,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Radius
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
