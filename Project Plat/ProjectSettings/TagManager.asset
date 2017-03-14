@@ -8,6 +8,9 @@ TagManager:
   - Checkpoint
   - MovingPlatform
   - Enemy
+  - Agility
+  - Scrum
+  - Sprint
   layers:
   - Default
   - TransparentFX

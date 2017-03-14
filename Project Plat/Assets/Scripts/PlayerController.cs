@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour {
 
 	public float jumpSpeed;
 
+	public bool agility;
+	public bool sprint;
+	public bool scrum;
+
 	public Transform groundCheck;
 	public float groundCheckRadius;
 	public LayerMask whatIsGround;
@@ -59,7 +63,7 @@ public class PlayerController : MonoBehaviour {
 			myRigidbody.velocity = new Vector3 (0f, myRigidbody.velocity.y, 0f);
 		}
 
-		if (Input.GetButtonDown ("Jump") && isGrounded) {
+		if (Input.GetButtonDown ("Jump") && isGrounded && agility) {
 			//have the player jump, only if he is grounded
 			myRigidbody.velocity = new Vector3 (myRigidbody.velocity.x, jumpSpeed, 0f);
 			//play jump sound
@@ -91,6 +95,21 @@ public class PlayerController : MonoBehaviour {
 			//if the player touches a checkpoint, set the respawn position to the checkpoint
 			respawnPosition = other.transform.position;
 		}
+
+		if (other.tag == "Agility") {
+			//if the player gets the agility object
+			agility = true;
+		}
+
+		if (other.tag == "Sprint") {
+			//if the player gets the sprint object
+			sprint = true;
+		}	
+
+		if (other.tag == "Scrum") {
+			//if the player gets the scrum object
+			scrum = true;
+		}	
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
