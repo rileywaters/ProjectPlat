@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour {
 			myRigidbody.velocity = new Vector3 (0f, myRigidbody.velocity.y, 0f);
 		}
 
-		if (Input.GetButtonDown ("Jump") && isGrounded && agility) {
+		if (Input.GetButtonDown ("Jump") && isGrounded) {
 			//have the player jump, only if he is grounded
 			myRigidbody.velocity = new Vector3 (myRigidbody.velocity.x, jumpSpeed, 0f);
 			//play jump sound
@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour {
 		if (other.tag == "Agility") {
 			//if the player gets the agility object
 			agility = true;
+			jumpSpeed *= 1.5f;
 		}
 
 		if (other.tag == "Sprint") {
