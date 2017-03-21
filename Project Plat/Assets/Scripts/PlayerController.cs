@@ -10,7 +10,13 @@ public class PlayerController : MonoBehaviour {
 
 	public bool agility;
 	public bool sprint;
+
 	public bool scrum;
+	public bool holding;
+	public float grabDistance = 2f;
+	public float throwForce = 1f;
+	RaycastHit2D hit;
+	public Transform HoldPoint;
 
 	public Transform groundCheck;
 	public float groundCheckRadius;
@@ -70,6 +76,51 @@ public class PlayerController : MonoBehaviour {
 			jumpsound.Play ();
 		}
 
+		//grab an object
+		if (Input.GetButtonDown ("Grab") && scrum) {
+
+			//if the player is not holding an object
+			if (!holding) {
+
+				//don't detect the player
+				Physics2D.queriesStartInColliders = false;
+
+				//detect object in front of player
+				hit = Physics2D.Raycast (transform.position, Vector3.right * transform.localScale.x, grabDistance);
+
+				//if ther's an object in front of the player
+				if (hit.collider != null) {
+
+					//if it's a grabable object
+					if (hit.collider.gameObject.tag == "Grab") {
+
+						//grab the object
+						holding = true;
+					}
+
+				}
+			} 
+
+			//if the player is holding anobject already
+			else {
+
+				//stop holding the object
+				holding = false;
+
+				//if it has a rigid body
+				if (hit.collider.gameObject.GetComponent<Rigidbody2D>() != null) {
+
+					//throw the object
+					hit.collider.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(throwForce*3f*transform.localScale.x, throwForce*1.5f, 0f);
+				}
+			}
+		}
+
+		//move held object
+		if(holding){
+			hit.collider.gameObject.transform.position = HoldPoint.transform.position;
+		}
+
 		//set the speed and grounded variables for the animator conditions
 		myAnim.SetFloat ("Speed", Mathf.Abs(myRigidbody.velocity.x));
 		myAnim.SetBool ("Grounded", isGrounded);
@@ -127,5 +178,11 @@ public class PlayerController : MonoBehaviour {
 			transform.parent = null;
 		}
 
+	}
+
+	void OnDrawGizmos(){
+		Gizmos.color = Color.green;
+
+		Gizmos.DrawLine (transform.position, transform.position + Vector3.right * transform.localScale.x * grabDistance);
 	}
 }

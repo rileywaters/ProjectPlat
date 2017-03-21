@@ -11,6 +11,7 @@ TagManager:
   - Agility
   - Scrum
   - Sprint
+  - Grab
   layers:
   - Default
   - TransparentFX
