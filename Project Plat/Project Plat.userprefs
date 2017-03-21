@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SprintDestroy.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="114" Column="117" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="192" Column="41" />
       <File FileName="Assets\Scripts\LevelManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CheckpointController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Coin.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Coin.cs" Line="21" Column="2" />
+      <File FileName="Assets\Scripts\SprintDestroy.cs" Line="19" Column="78" />
       <File FileName="Assets\Scripts\HurtPlayer.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DestroyOverTime.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MovingObject.cs" Line="1" Column="1" />
@@ -14,7 +15,7 @@
       <File FileName="Assets\Scripts\SpiderController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GreenWiggleController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\StompEnemy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ResetOnRespawn.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ResetOnRespawn.cs" Line="18" Column="46" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

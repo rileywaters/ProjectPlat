@@ -697,6 +697,13 @@ MonoBehaviour:
   jumpSpeed: 12
   agility: 0
   sprint: 0
+  inputLock: 0
+  sprinting: 0
+  canSprint: 1
+  sprintSpeed: 25
+  sprintTime: 0.5
+  cooldownTime: 1
+  count: 0
   scrum: 0
   holding: 0
   grabDistance: 2
@@ -799,6 +806,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &607591551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 607591545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c4685fe6c348149b6144115c259663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &642672030
 Prefab:
   m_ObjectHideFlags: 0

@@ -9,7 +9,15 @@ public class PlayerController : MonoBehaviour {
 	public float jumpSpeed;
 
 	public bool agility;
+
 	public bool sprint;
+	public bool inputLock = false;
+	public bool sprinting;
+	public bool canSprint = true;
+	public float sprintSpeed = 25f;
+	public float sprintTime = 0.5f;
+	public float cooldownTime = 1f;
+	public float count;
 
 	public bool scrum;
 	public bool holding;
@@ -51,87 +59,121 @@ public class PlayerController : MonoBehaviour {
 		//check if the player is on the ground
 		isGrounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, whatIsGround);
 
-		if (Input.GetAxisRaw ("Horizontal") > 0f) {
-			//move the player right
-			myRigidbody.velocity = new Vector3 (moveSpeed, myRigidbody.velocity.y, 0f);
-			//have the player sprite look right
-			transform.localScale = new Vector3 (1f, 1f, 1f);
+		//count down the sprint timer
+		count -= Time.deltaTime;
+		if (count <= 0f) {
+			count = 0f;
+		}
+
+		//refresh the sprint ability
+		if (count <= 0f && isGrounded && !sprinting && !canSprint) {
+			canSprint = true;
+		}
+
+		//if not sprinting
+		if (!inputLock) {
+			if (Input.GetAxisRaw ("Horizontal") > 0f) {
+				//move the player right
+				myRigidbody.velocity = new Vector3 (moveSpeed, myRigidbody.velocity.y, 0f);
+				//have the player sprite look right
+				transform.localScale = new Vector3 (1f, 1f, 1f);
 
 		
-		} else if (Input.GetAxisRaw ("Horizontal") < 0f) {
-			//move the player left
-			myRigidbody.velocity = new Vector3 (-moveSpeed, myRigidbody.velocity.y, 0f);
-			//have the player sprite look left
-			transform.localScale = new Vector3 (-1f, 1f, 1f);
+			} else if (Input.GetAxisRaw ("Horizontal") < 0f) {
+				//move the player left
+				myRigidbody.velocity = new Vector3 (-moveSpeed, myRigidbody.velocity.y, 0f);
+				//have the player sprite look left
+				transform.localScale = new Vector3 (-1f, 1f, 1f);
 
-		} else {
-			//Have the player stop moving when no buttons are pressed
-			myRigidbody.velocity = new Vector3 (0f, myRigidbody.velocity.y, 0f);
-		}
+			} else {
+				//Have the player stop moving when no buttons are pressed
+				myRigidbody.velocity = new Vector3 (0f, myRigidbody.velocity.y, 0f);
+			}
 
-		if (Input.GetButtonDown ("Jump") && isGrounded) {
-			//have the player jump, only if he is grounded
-			myRigidbody.velocity = new Vector3 (myRigidbody.velocity.x, jumpSpeed, 0f);
-			//play jump sound
-			jumpsound.Play ();
-		}
+			if (Input.GetButtonDown ("Jump") && isGrounded) {
+				//have the player jump, only if he is grounded
+				myRigidbody.velocity = new Vector3 (myRigidbody.velocity.x, jumpSpeed, 0f);
+				//play jump sound
+				jumpsound.Play ();
+			}
 
-		//grab an object
-		if (Input.GetButtonDown ("Grab") && scrum) {
+			//grab an object
+			if (Input.GetButtonDown ("Grab") && scrum) {
 
-			//if the player is not holding an object
-			if (!holding) {
+				//if the player is not holding an object
+				if (!holding) {
 
-				//don't detect the player
-				Physics2D.queriesStartInColliders = false;
+					//don't detect the player
+					Physics2D.queriesStartInColliders = false;
 
-				//detect object in front of player
-				hit = Physics2D.Raycast (transform.position, Vector3.right * transform.localScale.x, grabDistance);
+					//detect object in front of player
+					hit = Physics2D.Raycast (transform.position, Vector3.right * transform.localScale.x, grabDistance);
 
-				//if ther's an object in front of the player
-				if (hit.collider != null) {
+					//if ther's an object in front of the player
+					if (hit.collider != null) {
 
-					//if it's a grabable object
-					if (hit.collider.gameObject.tag == "Grab") {
+						//if it's a grabable object
+						if (hit.collider.gameObject.tag == "Grab") {
 
-						//grab the object
-						holding = true;
+							//grab the object
+							holding = true;
+						}
+
 					}
-
 				}
-			} 
 
 			//if the player is holding anobject already
 			else {
 
-				//stop holding the object
-				holding = false;
+					//stop holding the object
+					holding = false;
 
-				//if it has a rigid body
-				if (hit.collider.gameObject.GetComponent<Rigidbody2D>() != null) {
+					//if it has a rigid body
+					if (hit.collider.gameObject.GetComponent<Rigidbody2D> () != null) {
 
-					//throw the object
-					hit.collider.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(throwForce*3f*transform.localScale.x, throwForce*1.5f, 0f);
+						//throw the object
+						hit.collider.gameObject.GetComponent<Rigidbody2D> ().velocity = new Vector3 (throwForce * 3f * transform.localScale.x, throwForce * 1.5f, 0f);
+					}
 				}
+			}
+
+			//move held object
+			if (holding) {
+				hit.collider.gameObject.transform.position = HoldPoint.transform.position;
+			}
+
+			//sprint
+			if (Input.GetButtonDown ("Sprint") && scrum && canSprint) {
+				inputLock = true;
+				sprinting = true;
+				canSprint = false;
+				count = sprintTime;
+				myRigidbody.velocity = new Vector3 (sprintSpeed*transform.localScale.x, 0f, 0f);
 			}
 		}
 
-		//move held object
-		if(holding){
-			hit.collider.gameObject.transform.position = HoldPoint.transform.position;
+		//if sprinting
+		else{
+
+			//if the sprint has ended
+			if (count <= 0f) {
+				inputLock = false;
+				sprinting = false;
+				count = cooldownTime;
+			}
 		}
 
-		//set the speed and grounded variables for the animator conditions
-		myAnim.SetFloat ("Speed", Mathf.Abs(myRigidbody.velocity.x));
-		myAnim.SetBool ("Grounded", isGrounded);
+			//set the speed and grounded variables for the animator conditions
+			myAnim.SetFloat ("Speed", Mathf.Abs (myRigidbody.velocity.x));
+			myAnim.SetBool ("Grounded", isGrounded);
 
-		if (myRigidbody.velocity.y < 0) {
-			//only activate the stompbox if the player is moving down
-			stompBox.SetActive (true);
-		} else {
-			stompBox.SetActive (false);
-		}
-
+			if (myRigidbody.velocity.y < 0) {
+				//only activate the stompbox if the player is moving down
+				stompBox.SetActive (true);
+			} else {
+				stompBox.SetActive (false);
+			}
+				
 	}
 
 
@@ -147,7 +189,7 @@ public class PlayerController : MonoBehaviour {
 			respawnPosition = other.transform.position;
 		}
 
-		if (other.tag == "Agility") {
+		if (other.tag == "Agility" && !agility) {
 			//if the player gets the agility object
 			agility = true;
 			jumpSpeed *= 1.5f;
